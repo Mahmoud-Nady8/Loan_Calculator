@@ -1,0 +1,114 @@
+from tkinter import *
+from tkinter import messagebox
+
+def calculate_loan():
+    loan_amount = float(entry1.get())
+    loan_years = int(entry2.get())
+
+    interest_rates = {
+        1: 13.76,
+        2: 13.91,
+        3: 14.06,
+        4: 14.46,
+        5: 14.87,
+        6: 15.17,
+        7: 15.71
+    }
+
+    if loan_years not in interest_rates:
+        messagebox.showerror("Error", "Invalid loan duration. Please choose 1, 2, 3, 4, 5, 6, or 7 years.")
+        return
+
+    interest_in_one_year = loan_amount * (interest_rates[loan_years] / 100)
+    total_interests = interest_in_one_year * loan_years
+    total_loan = loan_amount + total_interests
+    monthly_payment = total_loan / (loan_years * 12)
+
+    result_label.config(text= f"• Interest in one year : {interest_in_one_year} \n"
+                                 f"\n"
+                              f"•Total interests:     {total_interests}\n"
+                              f"\n"
+                             f"•Total Loan:              {total_loan}\n"
+                             f"\n"
+                             f"•Monthly Payment:   {monthly_payment}",
+
+                        font=('Arial', 12, 'bold', 'italic'))
+
+def clear():
+    entry1.delete(0, END)
+    entry2.delete(0, END)
+    result_label.config(text="")
+
+def Exit():
+    if messagebox.askokcancel("EXIT", "Do you want to Exit ?"):
+        messagebox.showinfo("Thank You", "Thank you for using our program!")
+        x.destroy()
+
+
+x = Tk()
+x.title("Bank Misr")
+x.geometry("400x600+600+100")
+x.config(background="floralwhite")
+
+L1 = Label(x, text="Welcome to Banque Misr", font=("Algerian", 14), bg="maroon",fg="white")
+L1.pack()
+
+frame1 = Frame(x, bg="floralwhite")
+frame1.pack()
+
+frame2 = Frame(x, bg="floralwhite")
+frame2.pack()
+
+frame3 = Frame(x, bg="white")
+frame3.pack()
+
+frame4 = Frame(x, bg="white")
+frame4.pack()
+
+frame5 = Frame(x, bg="white")
+frame5.pack()
+
+frame6 = Frame(x, bg="white")
+frame6.pack()
+
+logo = PhotoImage(file="images.png")
+label1 = Label(frame1, image=logo, bg="white")
+label1.pack()
+
+label2 = Label(frame2, text="Choose your job:", font=('Arial', 12, 'bold'), bg="maroon",fg="white")
+label2.pack(side=LEFT, padx=5, pady=5)
+
+R1 = Radiobutton(frame2, text="Doctor", value=1, bg="white")
+R1.pack(side=LEFT, padx=10)
+R2 = Radiobutton(frame2, text="Teacher", value=2, bg="white")
+R2.pack(side=LEFT, padx=10)
+R3 = Radiobutton(frame2, text="Businessman", value=3, bg="white")
+R3.pack(side=LEFT, padx=10)
+R4 = Radiobutton(frame2, text="Other job", value=4, bg="white")
+R4.pack(side=LEFT, padx=10)
+
+label3 = Label(frame3, text="Loan Amount:", font=('Arial', 12, 'bold'), bg="maroon",fg="white")
+label3.pack(side=LEFT, padx=5, pady=10)
+
+entry1 = Entry(frame3,bd=5)
+entry1.pack(side=LEFT, padx=5)
+
+label4 = Label(frame4, text="Loan Duration (years):", font=('Arial', 12, 'bold'), bg="maroon",fg="white")
+label4.pack(side=LEFT, padx=5, pady=10)
+
+entry2 = Entry(frame4,bd=5)
+entry2.pack(side=LEFT, padx=5)
+
+
+
+button1 = Button(frame5, text="Calculate", command=calculate_loan, bg="gold")
+button1.pack(side=LEFT, padx=10, pady=10)
+button2 = Button(frame5, text="Clear", command=clear, bg="limegreen")
+button2.pack(side=LEFT, padx=10, pady=10)
+button3 = Button(frame5, text="Exit", command=Exit, bg="red")
+button3.pack(side=LEFT, padx=10, pady=10)
+
+result_label = Label(frame6, text="", font=('Arial', 12), bg="wheat")
+result_label.pack(pady=10)
+
+x.mainloop()
